@@ -1,10 +1,42 @@
 #!/bin/bash
 
-#
-# @filename: code-generator-parse-options.function.sh
-# @version: 1.0
-# @release-date: 20210103
+# @filename: parse-options.sh
+# @version: x.y
+# @release-date: yyyy-mm-dd
 # @author: IjorTengab <ijortengab@gmail.com>
+if [ -t 0 ]; then
+    echo Usage:
+    echo '  parse-options.sh OPTIONS < FILE'
+    echo '  parse-options.sh OPTIONS << EOF'
+    echo '  CONTENTS'
+    echo '  EOF'
+    echo ''
+    echo Available Options:
+    echo '  --clean'
+    echo '  --compact'
+    echo '  --debug-file <n>'
+    echo '  --no-error-invalid-options'
+    echo '  --no-error-require-arguments'
+    echo '  --no-hash-bang'
+    echo '  --no-original-arguments'
+    echo '  --no-rebuild-arguments'
+    echo '  --output-file <n>'
+    echo '  --path-shell <n>'
+    echo '  --sort <n>'
+    echo '  --sort-type-flag <n>'
+    echo '  --sort-type-flag-value <n>'
+    echo '  --sort-type-increment <n>'
+    echo '  --sort-type-multivalue <n>'
+    echo '  --sort-type-value <n>'
+    echo '  --with-end-options-double-dash'
+    echo '  --with-end-options-first-operand'
+    echo '  --without-end-options-double-dash'
+    echo '  --without-end-options-first-operand'
+    exit 1
+else
+    eval "$(</dev/stdin)"
+fi
+
 #
 # Membuat code untuk memparsing options dari argument yang biasanya digunakan
 # pada awal-awal Bash Script.
@@ -1096,3 +1128,5 @@ CodeGeneratorParseOptions() {
         echo -n "$lines" > $debug_file
     fi
 }
+
+CodeGeneratorParseOptions "$@"
