@@ -5,33 +5,80 @@
 # @release-date: yyyy-mm-dd
 # @author: IjorTengab <ijortengab@gmail.com>
 if [ -t 0 ]; then
-    echo Usage:
-    echo '  parse-options.sh OPTIONS < FILE'
-    echo '  parse-options.sh OPTIONS << EOF'
-    echo '  CONTENTS'
-    echo '  EOF'
-    echo ''
-    echo Available Options:
-    echo '  --clean'
-    echo '  --compact'
-    echo '  --debug-file <n>'
-    echo '  --no-error-invalid-options'
-    echo '  --no-error-require-arguments'
-    echo '  --no-hash-bang'
-    echo '  --no-original-arguments'
-    echo '  --no-rebuild-arguments'
-    echo '  --output-file <n>'
-    echo '  --path-shell <n>'
-    echo '  --sort <n>'
-    echo '  --sort-type-flag <n>'
-    echo '  --sort-type-flag-value <n>'
-    echo '  --sort-type-increment <n>'
-    echo '  --sort-type-multivalue <n>'
-    echo '  --sort-type-value <n>'
-    echo '  --with-end-options-double-dash'
-    echo '  --with-end-options-first-operand'
-    echo '  --without-end-options-double-dash'
-    echo '  --without-end-options-first-operand'
+    echo Usage: >&2
+    echo '  parse-options.sh OPTIONS < FILE' >&2
+    echo '  parse-options.sh OPTIONS << EOF' >&2
+    echo '  CONTENTS' >&2
+    echo '  EOF' >&2
+    echo '' >&2
+    echo Available Options: >&2
+    cat << 'EOF' >&2
+  --clean
+    The generated code doesn't include any comment.
+  --compact
+    The generated code will be minified.
+  --debug-file <n>
+    Auto create debug file for testing and dump variable.
+  --no-error-invalid-options
+    The generated code not include any output to STDERR if found any invalid
+    options.
+  --no-error-require-arguments
+    The generated code not include any output to STDERR if options that require
+    arguments not have arguments.
+  --no-hash-bang
+    The generated code not include hash bang (`#!/bin/bash`)
+  --no-original-arguments
+    The generated code doesn't create a definition of original arguments.
+  --no-rebuild-arguments
+    The generated code doesn't create a reposition arguments.
+    (set -- ${array[@]})
+    Use it if your script doesn't need operands (arguments non option).
+    This option does not apply in case of a second loop with getopts, ie
+    there is a single character type short option that needs value (value,
+    flag_value, multivalue) or there are at least two single short options
+    characters that don't need a value (flag, flag_value, increment).
+    This option also does not apply if one of the following options applies:
+    --with-end-options-double-dash or --with-end-options-first-operand
+  --output-file <n>
+    The generated code is not sent to stdout but is saved as files.
+  --path-shell <n>
+    Shell path string at the beginning of the line. Default: /bin/bash
+  --sort <n>
+    Order of options when looping using while. Separate with commas among the
+    following options: alphabet,type.
+    Examples of values are as follows:
+    - alphabet,type
+    - type,alphabet
+    - type,priority,alphabet
+    - type
+    - priority,type,alphabet (default)
+    For sort by `type` there are additional options for sorting again.
+  --sort-type-flag <n>
+    Sort priority for the flag type.
+    <n> is an integer 1 through 9. Default 1.
+  --sort-type-flag-value <n>
+    Prioritas sort untuk type flag-value.
+    <n> is an integer 1 through 9. Default 3.
+  --sort-type-increment <n>
+    Prioritas sort untuk type increment.
+    <n> is an integer 1 through 9. Default 4.
+  --sort-type-multivalue <n>
+    Prioritas sort untuk type multivalue.
+    <n> is an integer 1 through 9. Default 5.
+  --sort-type-value <n>
+    Prioritas sort untuk type value.
+    <n> is an integer 1 through 9. Default 2.
+  --with-end-options-double-dash
+    The generated code will make the double dash as end options.
+  --without-end-options-double-dash
+    The generated code will not make the double dash as end options.
+  --with-end-options-first-operand
+    The generated code will make the first operand (argument non options)
+    as end options.
+  --without-end-options-first-operand
+    The generated code will not make the first operand (argument non options)
+    as end options.
+EOF
     exit 1
 else
     eval "$(</dev/stdin)"
