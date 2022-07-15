@@ -210,4 +210,10 @@ All variable that using by this command.
   --without-end-options-first-operand
     The generated code will not make the first operand (argument non options)
     as end options.
+  --with-end-options-specific-operand
+    The generated code will make the specific operand (argument non options)
+    as end options. Set the specific operand in variable OPERAND (array).
+  --without-end-options-specific-operand
+    The generated code will not make the specific operand (argument non options)
+    as end options.
 ```

@@ -78,6 +78,12 @@ if [ -t 0 ]; then
   --without-end-options-first-operand
     The generated code will not make the first operand (argument non options)
     as end options.
+  --with-end-options-specific-operand
+    The generated code will make the specific operand (argument non options)
+    as end options. Set the specific operand in variable OPERAND (array).
+  --without-end-options-specific-operand
+    The generated code will not make the specific operand (argument non options)
+    as end options.
 EOF
     exit 1
 else
@@ -188,7 +194,7 @@ CodeGeneratorParseOptions() {
     local E e i j
 
     # Temporary Variable.
-    local _row _csv _comment
+    local _row _csv _comment _implode
     local _sort _parameter _long_option _short_option _short_option_strlen _type
     local _alphabet _add _priority _sort_type _case _array _flag _line
 
@@ -248,6 +254,8 @@ CodeGeneratorParseOptions() {
             --without-end-options-double-dash) end_options_double_dash=0; shift ;;
             --with-end-options-first-operand) end_options_first_operand=1; shift ;;
             --without-end-options-first-operand) end_options_first_operand=0; shift ;;
+            --with-end-options-specific-operand) end_options_specific_operand=1; shift ;;
+            --without-end-options-specific-operand) end_options_specific_operand=0; shift ;;
             *) shift ;;
         esac
     done
@@ -835,7 +843,7 @@ CodeGeneratorParseOptions() {
     if [[ $short_option_without_value -gt 1 || $short_option_with_value -gt 0 ]];then
         print_new_arguments=1
     fi
-    if [[ $end_options_double_dash == 1 || $end_options_first_operand == 1 ]];then
+    if [[ $end_options_double_dash == 1 || $end_options_first_operand == 1 || $end_options_specific_operand == 1 ]];then
         print_new_arguments=1
     fi
     if [[ $print_new_arguments == 1 ]];then
@@ -847,7 +855,7 @@ CodeGeneratorParseOptions() {
     lines_4+=(                      'while [[ $# -gt 0 ]]; do')
     lines_4+=(                      "$____"'case "$1" in')
     # Prepare repeat code.
-    if [[ $end_options_double_dash == 1 || $end_options_first_operand == 1 ]];then
+    if [[ $end_options_double_dash == 1 || $end_options_first_operand == 1  || $end_options_specific_operand == 1 ]];then
         # Karena print_new_arguments=1, maka tambahkan langsung new_arguments.
         _array=()
         _array+=(                   'while [[ $# -gt 0 ]]; do')
@@ -897,6 +905,15 @@ CodeGeneratorParseOptions() {
     # Asterix.
     if [[  $end_options_first_operand == 1 ]];then
         lines_6+=(                  "$____$____"'*)')
+        for e in "${_array[@]}"
+        do
+            lines_6+=(              "$____$____$____""$e")
+        done
+        lines_6+=(                  "$____$____$____"';;')
+    elif [[  $end_options_specific_operand == 1 && "${#OPERAND[@]}" -gt 0 ]];then
+        _implode=$(printf "|%s" "${OPERAND[@]}")
+        _implode=${_implode:1}
+        lines_6+=(                  "$____$____""$_implode"')')
         for e in "${_array[@]}"
         do
             lines_6+=(              "$____$____$____""$e")
