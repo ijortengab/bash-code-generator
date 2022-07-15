@@ -139,3 +139,55 @@ done
 Navigate to `example-2-wget.sh` and `example-3-ssh.sh` file to learn more deeply.
 
 See the `DOCUMENTATION.md` file for a complete guide.
+
+## Development Suggestion
+
+Use at least these options: `--output-file`, `--debug-file`, and `--no-hash-bang`.
+
+Example:
+
+```
+parse-options.sh \
+    --without-end-options-double-dash \
+    --compact \
+    --clean \
+    --no-rebuild-arguments \
+    --no-original-arguments \
+    --no-error-invalid-options \
+    --no-error-require-arguments \
+    --no-hash-bang \
+    --output-file parse.txt \
+    --debug-file debug.txt \
+    << EOF
+FLAG=(
+    '--execute|-x'
+)
+EOF
+```
+
+Command above will produce two files: `parse.txt` and `debug.txt`.
+
+Put these line on your shell script (at same level directory).
+
+Embed it at the beginning of script for parsing arguments (before main process).
+
+```
+source $(dirname $0)/parse.txt
+source $(dirname $0)/debug.txt
+```
+
+Now you can see the debug output of parsing arguments of script (options and operands).
+
+Snippet 1. Replace line `source $(dirname $0)/parse.txt` with its content to shell script.
+
+```
+FILE2=$(<script.sh) && \
+FILE1=$(<parse.txt) && \
+echo "${FILE2//source \$(dirname \$0)\/parse.txt/$FILE1}" > script.sh
+```
+
+Snippet 2. Remove line `source $(dirname $0)/debug.txt` from shell script.
+
+```
+sed -i '/source \$(dirname \$0)\/debug.txt/d' ./script.sh
+```
