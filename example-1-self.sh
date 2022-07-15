@@ -37,5 +37,7 @@ CSV=(
     'long:--without-end-options-double-dash,parameter:end_options_double_dash,flag_option:reverse'
     'long:--with-end-options-first-operand,parameter:end_options_first_operand'
     'long:--without-end-options-first-operand,parameter:end_options_first_operand,flag_option:reverse'
+    'long:--with-end-options-specific-operand,parameter:end_options_specific_operand'
+    'long:--without-end-options-specific-operand,parameter:end_options_specific_operand,flag_option:reverse'
 )
 EOF
