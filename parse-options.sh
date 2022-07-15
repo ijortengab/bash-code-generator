@@ -1085,6 +1085,8 @@ CodeGeneratorParseOptions() {
     fi
     if [[ ! $debug_file == '' ]];then
         resetLines
+        # No leading space
+        __=''
         lines_1+=(                  '#!'"$path_shell")
         lines_1+=('')
         lines_1+=(                  'normal="$(tput sgr0)"')
