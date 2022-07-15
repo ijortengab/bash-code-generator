@@ -841,15 +841,17 @@ CodeGeneratorParseOptions() {
         lines_6+=(                  "$____$____$____"';;')
     fi
     # Invalid long options with double dash.
+    _add=
     if [[ ! $no_error_invalid_options == 1 ]];then
-        if [[ $compact == 1 ]];then
-            lines_6+=(              "$____$____"'--[^-]*) echo "Invalid option: $1" >&2; shift ;;')
-        else
-            lines_6+=(              "$____$____"'--[^-]*)')
-            lines_6+=(              "$____$____$____"'echo "Invalid option: $1" >&2')
-            lines_6+=(              "$____$____$____"'shift')
-            lines_6+=(              "$____$____$____"';;')
-        fi
+        _add=' echo "Invalid option: $1" >&2;'
+    fi
+    if [[ $compact == 1 ]];then
+        lines_6+=(              "$____$____"'--[^-]*)'"$_add"' shift ;;')
+    else
+        lines_6+=(              "$____$____"'--[^-]*)')
+        lines_6+=(              "$____$____$____""$_add")
+        lines_6+=(              "$____$____$____"'shift')
+        lines_6+=(              "$____$____$____"';;')
     fi
     # Specific operand.
     if [[ $end_options_specific_operand == 1 && "${#OPERAND[@]}" -gt 0 ]];then
@@ -863,7 +865,7 @@ CodeGeneratorParseOptions() {
         lines_6+=(                  "$____$____$____"';;')
     fi
     # Asterix.
-    if [[  $end_options_first_operand == 1 ]];then
+    if [[ $end_options_first_operand == 1 ]];then
         lines_6+=(                  "$____$____"'*)')
         for e in "${_array[@]}"
         do
