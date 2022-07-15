@@ -15,7 +15,7 @@ Usage() {
     echo '  FLAG, VALUE, FLAG_VALUE, MULTIVALUE, INCREMENT, CSV, OPERAND' >&2
     echo '' >&2
     echo Used variable with default value: >&2
-    echo '  ORIGINAL_ARGUMENTS, INDENT, _NEW_ARGUMENTS, _N' >&2
+    echo '  ORIGINAL_ARGUMENTS, INDENT, _NEW_ARGUMENTS, _N LEADING_SPACE' >&2
     echo '' >&2
     echo Available Options: >&2
     cat << 'EOF' >&2
@@ -132,7 +132,7 @@ CodeGeneratorParseOptions() {
     )
 
     # Define.
-    local original_arguments new_arguments n print_new_arguments ____
+    local original_arguments new_arguments n print_new_arguments ____ __
 
     # Temporary Variable used in looping.
     local E e i j
@@ -440,7 +440,7 @@ CodeGeneratorParseOptions() {
     #
     # Globals:
     #   Used: lines_1 lines_2 lines_3 lines_4 lines_5 lines_6 lines_7 lines_8
-    #         lines_9
+    #         lines_9 __
     #   Modified: lines
     #
     # Arguments:
@@ -450,23 +450,23 @@ CodeGeneratorParseOptions() {
     #   None
     #
     compileLines() {
-        for e in "${lines_1[@]}"; do lines+="$e""
+        for e in "${lines_1[@]}"; do lines+="${__}${e}""
 "; done
-        for e in "${lines_2[@]}"; do lines+="$e""
+        for e in "${lines_2[@]}"; do lines+="${__}${e}""
 "; done
-        for e in "${lines_3[@]}"; do lines+="$e""
+        for e in "${lines_3[@]}"; do lines+="${__}${e}""
 "; done
-        for e in "${lines_4[@]}"; do lines+="$e""
+        for e in "${lines_4[@]}"; do lines+="${__}${e}""
 "; done
-        for e in "${lines_5[@]}"; do lines+="$e""
+        for e in "${lines_5[@]}"; do lines+="${__}${e}""
 "; done
-        for e in "${lines_6[@]}"; do lines+="$e""
+        for e in "${lines_6[@]}"; do lines+="${__}${e}""
 "; done
-        for e in "${lines_7[@]}"; do lines+="$e""
+        for e in "${lines_7[@]}"; do lines+="${__}${e}""
 "; done
-        for e in "${lines_8[@]}"; do lines+="$e""
+        for e in "${lines_8[@]}"; do lines+="${__}${e}""
 "; done
-        for e in "${lines_9[@]}"; do lines+="$e""
+        for e in "${lines_9[@]}"; do lines+="${__}${e}""
 "; done
     }
 
@@ -509,6 +509,11 @@ CodeGeneratorParseOptions() {
         ____=$INDENT
     else
         ____='    '
+    fi
+    if [[ ! $LEADING_SPACE == "" ]];then
+        __=$LEADING_SPACE
+    else
+        __=''
     fi
 
     # Start populate.

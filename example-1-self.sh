@@ -12,6 +12,7 @@ parse-options.sh \
     --no-rebuild-arguments \
     --without-end-options-double-dash \
     --clean << EOF
+LEADING_SPACE='    '
 FLAG=(
     --no-hash-bang
     --no-original-arguments

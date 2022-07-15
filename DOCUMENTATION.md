@@ -141,6 +141,7 @@ All variable that using by this command.
  - `INDENT` variable using for indentation definition. If omitted, we using four space.
  - `_NEW_ARGUMENTS` variable using for parameter name. Default value is `_new_arguments`.
  - `_N` variable using for parameter name. Default value is `_n`.
+ - `LEADING_SPACE` variable using for prepend space at the beginning of line. Default value is ``.
 
 ## Options.
 
