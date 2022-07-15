@@ -851,18 +851,20 @@ CodeGeneratorParseOptions() {
             lines_6+=(              "$____$____$____"';;')
         fi
     fi
-    # Asterix.
-    if [[  $end_options_first_operand == 1 ]];then
-        lines_6+=(                  "$____$____"'*)')
+    # Specific operand.
+    if [[ $end_options_specific_operand == 1 && "${#OPERAND[@]}" -gt 0 ]];then
+        _implode=$(printf "|%s" "${OPERAND[@]}")
+        _implode=${_implode:1}
+        lines_6+=(                  "$____$____""$_implode"')')
         for e in "${_array[@]}"
         do
             lines_6+=(              "$____$____$____""$e")
         done
         lines_6+=(                  "$____$____$____"';;')
-    elif [[  $end_options_specific_operand == 1 && "${#OPERAND[@]}" -gt 0 ]];then
-        _implode=$(printf "|%s" "${OPERAND[@]}")
-        _implode=${_implode:1}
-        lines_6+=(                  "$____$____""$_implode"')')
+    fi
+    # Asterix.
+    if [[  $end_options_first_operand == 1 ]];then
+        lines_6+=(                  "$____$____"'*)')
         for e in "${_array[@]}"
         do
             lines_6+=(              "$____$____$____""$e")
