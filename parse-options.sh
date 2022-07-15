@@ -4,12 +4,18 @@
 # @version: x.y
 # @release-date: yyyy-mm-dd
 # @author: IjorTengab <ijortengab@gmail.com>
-if [ -t 0 ]; then
+Usage() {
     echo Usage: >&2
     echo '  parse-options.sh OPTIONS < FILE' >&2
     echo '  parse-options.sh OPTIONS << EOF' >&2
     echo '  CONTENTS' >&2
     echo '  EOF' >&2
+    echo '' >&2
+    echo Used variable: >&2
+    echo '  FLAG, VALUE, FLAG_VALUE, MULTIVALUE, INCREMENT, CSV, OPERAND' >&2
+    echo '' >&2
+    echo Used variable with default value: >&2
+    echo '  ORIGINAL_ARGUMENTS, INDENT, _NEW_ARGUMENTS, _N' >&2
     echo '' >&2
     echo Available Options: >&2
     cat << 'EOF' >&2
@@ -85,6 +91,9 @@ if [ -t 0 ]; then
     The generated code will not make the specific operand (argument non options)
     as end options.
 EOF
+}
+if [ -t 0 ]; then
+	Usage
     exit 1
 else
     eval "$(</dev/stdin)"
@@ -105,72 +114,7 @@ fi
 #     _N (Default value is `_n`)
 #
 # Arguments:
-#   --clean
-#     Code yang dibuat tidak akan terdapat comment informasi.
-#   --compact
-#     Code akan dibuat seringkas mungkin.
-#   --debug-file <n>
-#     Otomatis membuat file yang berisi print variable untuk keperluan debug.
-#   --no-error-invalid-options
-#     Code tidak akan menghasilkan output ke stderr jika ditemukan options yang
-#     invalid.
-#   --no-error-require-arguments
-#     Code tidak akan menghasilkan output ke stderr jika ditemukan options yang
-#     membutuhkan value.
-#   --no-hash-bang
-#     Code tidak akan terdapat hash bang diawal script.
-#   --no-original-arguments
-#     Code tidak akan terdapat definisi original arguments.
-#   --no-rebuild-arguments
-#     Code tidak akan melakukan reposisi arguments (set -- ${array[@]})
-#     Gunakan jika script memang tidak terdapat operand (arguments non option)
-#     atau keseluruhan options adalah standalone.
-#     Option ini tidak berlaku jika terjadi looping kedua dengan getopts, yakni
-#     terdapat satu shortoption single character type yg butuh value (value,
-#     flag_value, multivalue) atau terdapat minimal dua shortoption single
-#     character yang tidak butuh value (flag, flag_value, increment).
-#     Option ini juga tidak berlaku jika berlaku option salah satu dibawah ini:
-#     --with-end-options-double-dash atau --with-end-options-first-operand
-#   --output-file <n>
-#     Code yang dibuat tidak akan dikirim ke stdout tetapi disimpan sebagai
-#     file.
-#   --path-shell <n>
-#     String path shell diawal baris. Default: `/bin/bash`
-#   --sort <n>
-#     Urutan option saat looping menggunakan while. Pisahkan dengan comma
-#     diantara pilihan berikut: alphabet,type,.
-#     Contoh value adalah sbb:
-#     - alphabet,type
-#     - type,alphabet
-#     - type,priority,alphabet
-#     - type
-#     - priority,type,alphabet (default)
-#     Untuk sort berdasrkan `type` terdapat options tambahan untuk sorting lagi.
-#   --sort-type-flag <n>
-#     Prioritas sort untuk type flag.
-#     <n> adalah integer 1 sampai 9. Default 1.
-#   --sort-type-flag-value <n>
-#     Prioritas sort untuk type flag-value.
-#     <n> adalah integer 1 sampai 9. Default 3.
-#   --sort-type-increment <n>
-#     Prioritas sort untuk type increment.
-#     <n> adalah integer 1 sampai 9. Default 4.
-#   --sort-type-multivalue <n>
-#     Prioritas sort untuk type multivalue.
-#     <n> adalah integer 1 sampai 9. Default 5.
-#   --sort-type-value <n>
-#     Prioritas sort untuk type value.
-#     <n> adalah integer 1 sampai 9. Default 2.
-#   --with-end-options-double-dash
-#     Code yang dibuat akan menjadikan double dash sebagai end options.
-#   --without-end-options-double-dash
-#     Code yang dibuat tidak akan menjadikan double dash sebagai end options.
-#   --with-end-options-first-operand
-#     Code yang dibuat akan menjadikan first operand (argument non options)
-#     sebagai end options.
-#   --without-end-options-first-operand
-#     Code yang dibuat tidak akan menjadikan first operand
-#     (argument non options) sebagai end options.
+#   @see Usage().
 #
 # Returns:
 #   1: Tidak bisa membuat code karena options yang didefinisikan tidak ada.
