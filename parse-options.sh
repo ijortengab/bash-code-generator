@@ -1059,7 +1059,13 @@ CodeGeneratorParseOptions() {
             fi
             lines_8+=(              "$____$____$____$____$____$____"';;')
         elif [[ ! $no_error_require_arguments == 1 ]];then
-            lines_8+=(              "$____$____$____$____$____"':) echo "Option -$OPTARG requires an argument." >&2 ;;')
+            if [[ $compact == 1 ]];then
+                lines_8+=(          "$____$____$____$____$____"':) echo "Option -$OPTARG requires an argument." >&2 ;;')
+            else
+                lines_8+=(          "$____$____$____$____$____"':)')
+                lines_8+=(          "$____$____$____$____$____"'    echo "Option -$OPTARG requires an argument." >&2')
+                lines_8+=(          "$____$____$____$____$____"'    ;;')
+            fi
         fi
     fi
     if [[ ${#temporary_variable[@]} -gt 0 ]];then
