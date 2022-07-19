@@ -843,12 +843,14 @@ CodeGeneratorParseOptions() {
     # Invalid long options with double dash.
     _add=
     if [[ ! $no_error_invalid_options == 1 ]];then
-        _add=' echo "Invalid option: $1" >&2;'
+        _add='echo "Invalid option: $1" >&2;'
     fi
     if [[ $compact == 1 ]];then
+        [ -n "$_add" ] && _add=" ${_add}"
         lines_6+=(              "$____$____"'--[^-]*)'"$_add"' shift ;;')
     else
         lines_6+=(              "$____$____"'--[^-]*)')
+        [ -n "$_add" ] && \
         lines_6+=(              "$____$____$____""$_add")
         lines_6+=(              "$____$____$____"'shift')
         lines_6+=(              "$____$____$____"';;')
