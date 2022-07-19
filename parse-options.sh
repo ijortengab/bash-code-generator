@@ -617,10 +617,6 @@ CodeGeneratorParseOptions() {
     IFS=$'\n' csv_short_option_strlen_1=($(sort <<<"${csv_short_option_strlen_1[*]}")); unset IFS
     IFS=$'\n' csv_short_option_strlen_1_flag_value=($(sort <<<"${csv_short_option_strlen_1_flag_value[*]}")); unset IFS
 
-    if [[ "${#csv_all[@]}" -lt 1 ]];then
-        return 1
-    fi
-
     if [[ ! $no_hash_bang == 1 ]];then
         lines_1+=(                  '#!'"$path_shell")
         lines_1+=('')
