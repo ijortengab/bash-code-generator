@@ -888,10 +888,14 @@ CodeGeneratorParseOptions() {
     fi
     lines_6+=(                      "$____"'esac')
     lines_6+=(                      'done')
-    lines_6+=('')
+    if [[ ! $compact == 1 ]];then
+        lines_6+=(                  '')
+    fi
     if [[ $print_new_arguments == 1 ]];then
         lines_6+=(                  'set -- "${'"$new_arguments"'[@]}"')
-        lines_6+=('')
+        if [[ ! $compact == 1 ]];then
+            lines_6+=(              '')
+        fi
     fi
     # Start second looping.
     if [[ $short_option_without_value -gt 1 || $short_option_with_value -gt 0 ]];then
@@ -899,7 +903,9 @@ CodeGeneratorParseOptions() {
             lines_7+=(              '# Truncate.')
         fi
         lines_7+=(                  "$new_arguments"'=()')
-        lines_7+=('')
+        if [[ ! $compact == 1 ]];then
+            lines_7+=(              '')
+        fi
         if [[ ! $clean == 1 ]];then
             lines_7+=(              '# Processing compiled single character options.')
         fi
@@ -975,9 +981,13 @@ CodeGeneratorParseOptions() {
         fi
         lines_9+=(                  "$____"'esac')
         lines_9+=(                  'done')
-        lines_9+=('')
+        if [[ ! $compact == 1 ]];then
+            lines_9+=(              '')
+        fi
         lines_9+=(                  'set -- "${'"$new_arguments"'[@]}"')
-        lines_9+=('')
+        if [[ ! $compact == 1 ]];then
+            lines_9+=(              '')
+        fi
         for e in "${csv_short_option_strlen_1[@]}"; do
             parseCSV "$e"
             _alphabet=${_short_option//-/}
@@ -1086,7 +1096,9 @@ CodeGeneratorParseOptions() {
             lines_3+=(              "$e")
             lines_9+=(                  'unset '"${e%=*}")
         done
-        lines_3+=('')
+        if [[ ! $compact == 1 ]];then
+            lines_3+=(              '')
+        fi
     fi
     if [[ ! $clean == 1 ]];then
         lines_9+=(                  '# End of generated code by CodeGeneratorParseOptions().')
