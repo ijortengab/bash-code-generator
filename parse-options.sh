@@ -697,10 +697,10 @@ CodeGeneratorParseOptions() {
                     if [[ $no_error_require_arguments == 1 ]];then
                         _add=
                     fi
-                    lines_5+=(      "$____$____"$_case') if [[ ! $2 == "" && ! $2 =~ ^-[^-] ]]; then '$_parameter'="$2"; shift'"$_add"'; fi; shift ;;'"$_comment")
+                    lines_5+=(      "$____$____"$_case') if [[ ! $2 == "" && ! $2 =~ (^--$|^-[^-]|^--[^-]) ]]; then '$_parameter'="$2"; shift'"$_add"'; fi; shift ;;'"$_comment")
                 else
                     lines_5+=(      "$____$____"$_case')')
-                    lines_5+=(      "$____$____$____"'if [[ ! $2 == "" && ! $2 =~ ^-[^-] ]];then')
+                    lines_5+=(      "$____$____$____"'if [[ ! $2 == "" && ! $2 =~ (^--$|^-[^-]|^--[^-]) ]];then')
                     lines_5+=(      "$____$____$____$____"$_parameter'="$2"')
                     lines_5+=(      "$____$____$____$____"'shift')
                     if [[ ! $no_error_require_arguments == 1 ]];then
@@ -724,10 +724,10 @@ CodeGeneratorParseOptions() {
                 fi
                 populateCase
                 if [[ $compact == 1 ]];then
-                    lines_5+=(      "$____$____"$_case') if [[ ! $2 == "" && ! $2 =~ ^-[^-] ]]; then '$_parameter'="$2"; shift; else '$_parameter'='$_flag'; fi; shift ;;'"$_comment")
+                    lines_5+=(      "$____$____"$_case') if [[ ! $2 == "" && ! $2 =~ (^--$|^-[^-]|^--[^-]) ]]; then '$_parameter'="$2"; shift; else '$_parameter'='$_flag'; fi; shift ;;'"$_comment")
                 else
                     lines_5+=(      "$____$____"$_case')')
-                    lines_5+=(      "$____$____$____"'if [[ ! $2 == "" && ! $2 =~ ^-[^-] ]];then')
+                    lines_5+=(      "$____$____$____"'if [[ ! $2 == "" && ! $2 =~ (^--$|^-[^-]|^--[^-]) ]];then')
                     lines_5+=(      "$____$____$____$____"$_parameter'="$2"')
                     lines_5+=(      "$____$____$____$____"'shift')
                     lines_5+=(      "$____$____$____"'else')
@@ -764,10 +764,10 @@ CodeGeneratorParseOptions() {
                     if [[ $no_error_require_arguments == 1 ]];then
                         _add=
                     fi
-                    lines_5+=(      "$____$____"$_case') if [[ ! $2 == "" && ! $2 =~ ^-[^-] ]]; then '$_parameter'+=("$2"); shift'"$_add"'; fi; shift ;;'"$_comment")
+                    lines_5+=(      "$____$____"$_case') if [[ ! $2 == "" && ! $2 =~ (^--$|^-[^-]|^--[^-]) ]]; then '$_parameter'+=("$2"); shift'"$_add"'; fi; shift ;;'"$_comment")
                 else
                     lines_5+=(      "$____$____"$_case')')
-                    lines_5+=(      "$____$____$____"'if [[ ! $2 == "" && ! $2 =~ ^-[^-] ]];then')
+                    lines_5+=(      "$____$____$____"'if [[ ! $2 == "" && ! $2 =~ (^--$|^-[^-]|^--[^-]) ]];then')
                     lines_5+=(      "$____$____$____$____"$_parameter'+=("$2")')
                     lines_5+=(      "$____$____$____$____"'shift')
                     if [[ ! $no_error_require_arguments == 1 ]];then
