@@ -150,6 +150,7 @@ CodeGeneratorParseOptions() {
     local short_option_flag_value=
     local short_option_with_value=0
     local short_option_without_value=0
+    local short_option_increment_exist=
     local temporary_variable=()
     local longest=0 longest2=0
 
@@ -651,6 +652,7 @@ CodeGeneratorParseOptions() {
                 increment)
                     optstring+=$_alphabet
                     let short_option_without_value++
+                    short_option_increment_exist=1
                     ;;
                 multivalue)
                     optstring+=$_alphabet:
@@ -785,7 +787,7 @@ CodeGeneratorParseOptions() {
     if [[ $no_rebuild_arguments == 1 ]];then
         print_new_arguments=0
     fi
-    if [[ $short_option_without_value -gt 1 || $short_option_with_value -gt 0 ]];then
+    if [[ $short_option_without_value -gt 1 || $short_option_with_value -gt 0 || $short_option_increment_exist == 1 ]];then
         print_new_arguments=1
     fi
     if [[ $end_options_double_dash == 1 || $end_options_first_operand == 1 || $end_options_specific_operand == 1 ]];then
@@ -818,7 +820,7 @@ CodeGeneratorParseOptions() {
     fi
     # Double dash.
     if [[ $end_options_double_dash == 1 ]];then
-        if [[ $short_option_without_value -gt 1 || $short_option_with_value -gt 0 ]];then
+        if [[ $short_option_without_value -gt 1 || $short_option_with_value -gt 0 || $short_option_increment_exist == 1 ]];then
             # Double dash akan dilanjutkan di looping kedua.
             # Jadi double dash perlu dimasukkan juga ke `_new_arguments`.
             lines_6+=(              "$____$____"'--)')
@@ -898,7 +900,7 @@ CodeGeneratorParseOptions() {
         fi
     fi
     # Start second looping.
-    if [[ $short_option_without_value -gt 1 || $short_option_with_value -gt 0 ]];then
+    if [[ $short_option_without_value -gt 1 || $short_option_with_value -gt 0 || $short_option_increment_exist == 1 ]];then
         if [[ ! $clean == 1 ]];then
             lines_7+=(              '# Truncate.')
         fi
