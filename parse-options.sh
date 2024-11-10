@@ -268,14 +268,17 @@ CodeGeneratorParseOptions() {
     # Contoh valid: --preview --directory
     #
     validateLongOptionName() {
-        wild=$(echo "$1" | grep '[^a-z\-]')
+        wild=$(echo "$1" | grep '[^a-z0-9\-]')
         if [[ ! $wild == '' ]];then
-            echo 'Option name must not have character except a-z and dash (-).' >&2
+            echo 'Option name must not have character except a-z, 0-9 and dash (-).' >&2
             return 1
         fi
         if [[ ! "$1" =~ ^--[^-] ]];then
             echo 'Option name must beginning with two dash (--).' >&2
             return 1
+        fi
+        if [[ "$1" =~ ^--[0-9] ]];then
+            echo 'Option name must cannot start with integer after two dash (--).' >&2
         fi
         if [[ "$1" =~ -$ ]];then
             echo 'Option name must not ending with dash (-).' >&2
