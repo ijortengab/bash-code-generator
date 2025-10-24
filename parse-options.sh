@@ -821,6 +821,19 @@ CodeGeneratorParseOptions() {
         _array+=(                   "$____"'esac')
         _array+=(                   'done')
     fi
+    # Studi kasus seperti ini: rcm -vvv --non-interactive ispconfig
+    if [[ $short_option_without_value -gt 1 || $short_option_with_value -gt 0 || $short_option_increment_exist == 1 ]];then
+        # -[^-]*) _new_arguments+=("$1"); shift ;;
+        if [[ $compact == 1 ]];then
+            lines_6+=(              "$____$____"'-[^-]*) _new_arguments+=("$1"); shift ;;')
+        else
+            lines_6+=(              "$____$____"'-[^-]*)')
+            lines_6+=(              "$____$____$____"'_new_arguments+=("$1")')
+            lines_6+=(              "$____$____$____"'shift')
+            lines_6+=(              "$____$____$____"';;')
+        fi
+    fi
+
     # Double dash.
     if [[ $end_options_double_dash == 1 ]];then
         if [[ $short_option_without_value -gt 1 || $short_option_with_value -gt 0 || $short_option_increment_exist == 1 ]];then
